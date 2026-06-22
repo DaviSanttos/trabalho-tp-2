@@ -1,42 +1,47 @@
 package com.sistema.coxinha.command;
 
 import com.sistema.coxinha.model.Movimentacao;
+import com.sistema.coxinha.model.Pedido;
 import com.sistema.coxinha.repository.MovimentacaoRepository;
-import com.sistema.coxinha.service.ClienteService;
+import com.sistema.coxinha.repository.PedidoRepository;
 import com.sistema.coxinha.service.EstoqueService;
-import com.sistema.coxinha.state.MovimentacaoContext;
+import com.sistema.coxinha.state.PedidoContext;
 import lombok.Builder;
+
+import java.time.LocalDateTime;
 
 @Builder
 public class EstornarPedidoCommand implements Command {
 
-    private final Long movimentacaoId;
-    private final ClienteService clienteService;
+    private final Long pedidoId;
     private final EstoqueService estoqueService;
+    private final PedidoRepository pedidoRepository;
     private final MovimentacaoRepository movimentacaoRepository;
 
     @Override
     public void executar() {
-        Movimentacao movimentacao = movimentacaoRepository.findById(movimentacaoId)
-                .orElseThrow(() -> new RuntimeException("Movimentação não encontrada"));
+        Pedido pedido = pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
 
-        if ("ESTORNADA".equals(movimentacao.getStatus())) {
+        if ("ESTORNADA".equals(pedido.getStatus())) {
             throw new RuntimeException("Este pedido já foi estornado");
         }
 
-        // 1. Validar e mudar estado via State Pattern
-        MovimentacaoContext stateContext = new MovimentacaoContext();
-        // Assume que o status atual é CONFIRMADA para permitir estorno
+        PedidoContext stateContext = new PedidoContext(pedido.getStatus());
         stateContext.estornar();
 
-        // 2. Devolver estoque
-        estoqueService.adicionarEstoque(movimentacao.getSabor(), 1);
+        estoqueService.reporEstoque(pedido.getSabor(), pedido.getQuantidade());
 
-        // 3. Reverter saldo
-        clienteService.adicionarSaldo(movimentacao.getClienteId(), movimentacao.getValorPedido());
+        pedido.setStatus(stateContext.getStatus());
+        pedidoRepository.save(pedido);
 
-        // 4. Atualizar status da movimentação
-        movimentacao.setStatus(stateContext.getStatus());
+        Movimentacao movimentacao = Movimentacao.builder()
+                .data(LocalDateTime.now())
+                .tipo("ESTORNO")
+                .valor(pedido.getValorTotal())
+                .descricao("Estorno do pedido #" + pedido.getId() + " - " + pedido.getQuantidade() + "x " + pedido.getSabor())
+                .build();
+
         movimentacaoRepository.save(movimentacao);
     }
 }

@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class PedidoRequestDTO {
     private Long clienteId;
     private String sabor;
-    private Double valorNota;
+    private Integer quantidade;
+    private boolean usarCupom;
 }

@@ -36,7 +36,7 @@ public class ClienteController {
         return ClienteResponseDTO.builder()
                 .id(cliente.getId())
                 .nome(cliente.getNome())
-                .saldo(cliente.getSaldo())
+                .email(cliente.getEmail())
                 .build();
     }
 }

@@ -1,13 +1,13 @@
 package com.sistema.coxinha.state;
 
-public class MovimentacaoContext {
-    private MovimentacaoState state;
+public class PedidoContext {
+    private PedidoState state;
 
-    public MovimentacaoContext() {
+    public PedidoContext() {
         this.state = new PendenteState();
     }
 
-    public MovimentacaoContext(String status) {
+    public PedidoContext(String status) {
         switch (status) {
             case "PENDENTE":
                 this.state = new PendenteState();
@@ -26,11 +26,7 @@ public class MovimentacaoContext {
         }
     }
 
-    public MovimentacaoState getState() {
-        return state;
-    }
-
-    public void setState(MovimentacaoState state) {
+    public void setState(PedidoState state) {
         this.state = state;
     }
 

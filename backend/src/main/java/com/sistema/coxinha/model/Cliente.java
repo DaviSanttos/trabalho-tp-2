@@ -22,19 +22,7 @@ public class Cliente {
 
     private String nome;
 
-    private Double saldo;
+    private String email;
 
-    public void adicionarSaldo(Double valor) {
-        if (this.saldo == null) {
-            this.saldo = 0.0;
-        }
-        this.saldo += valor;
-    }
-
-    public void debitarSaldo(Double valor) {
-        if (this.saldo == null || this.saldo < valor) {
-            throw new RuntimeException("Saldo insuficiente");
-        }
-        this.saldo -= valor;
-    }
+    private String senha;
 }

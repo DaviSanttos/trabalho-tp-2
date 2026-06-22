@@ -3,9 +3,12 @@ package com.sistema.coxinha.service;
 import com.sistema.coxinha.command.EstornarPedidoCommand;
 import com.sistema.coxinha.command.RealizarPedidoCommand;
 import com.sistema.coxinha.factory.CoxinhaFactory;
-import com.sistema.coxinha.model.Movimentacao;
+import com.sistema.coxinha.model.Pedido;
 import com.sistema.coxinha.repository.MovimentacaoRepository;
+import com.sistema.coxinha.repository.PedidoRepository;
 import com.sistema.coxinha.strategy.CalculoPrecoStrategy;
+import com.sistema.coxinha.strategy.PrecoPadrao;
+import com.sistema.coxinha.strategy.PrecoPromocional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,37 +19,44 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PedidoService {
 
-    private final ClienteService clienteService;
     private final EstoqueService estoqueService;
+    private final PedidoRepository pedidoRepository;
     private final MovimentacaoRepository movimentacaoRepository;
     private final CoxinhaFactory coxinhaFactory;
-    private final CalculoPrecoStrategy precoStrategy;
+    private final PrecoPadrao precoPadrao;
+    private final PrecoPromocional precoPromocional;
 
-    public List<Movimentacao> listarHistorico() {
-        return movimentacaoRepository.findAll();
+    public List<Pedido> listarHistorico() {
+        return pedidoRepository.findAll();
+    }
+
+    public List<Pedido> listarPorCliente(Long clienteId) {
+        return pedidoRepository.findByClienteId(clienteId);
     }
 
     @Transactional
-    public void realizarPedido(Long clienteId, String sabor, Double valorNota) {
+    public void realizarPedido(Long clienteId, String sabor, Integer quantidade, boolean usarCupom) {
+        CalculoPrecoStrategy strategy = usarCupom ? precoPromocional : precoPadrao;
+
         RealizarPedidoCommand.builder()
                 .clienteId(clienteId)
                 .sabor(sabor)
-                .valorNota(valorNota)
-                .clienteService(clienteService)
+                .quantidade(quantidade)
                 .estoqueService(estoqueService)
+                .pedidoRepository(pedidoRepository)
                 .movimentacaoRepository(movimentacaoRepository)
                 .coxinhaFactory(coxinhaFactory)
-                .precoStrategy(precoStrategy)
+                .precoStrategy(strategy)
                 .build()
                 .executar();
     }
 
     @Transactional
-    public void estornarPedido(Long movimentacaoId) {
+    public void estornarPedido(Long pedidoId) {
         EstornarPedidoCommand.builder()
-                .movimentacaoId(movimentacaoId)
-                .clienteService(clienteService)
+                .pedidoId(pedidoId)
                 .estoqueService(estoqueService)
+                .pedidoRepository(pedidoRepository)
                 .movimentacaoRepository(movimentacaoRepository)
                 .build()
                 .executar();

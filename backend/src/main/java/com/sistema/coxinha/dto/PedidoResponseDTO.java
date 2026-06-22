@@ -5,11 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class PedidoResponseDTO {
-    private boolean sucesso;
-    private String mensagem;
+    private Long id;
+    private Long clienteId;
+    private String nomeCliente;
+    private LocalDateTime data;
+    private String sabor;
+    private Integer quantidade;
+    private Double valorTotal;
+    private String status;
 }

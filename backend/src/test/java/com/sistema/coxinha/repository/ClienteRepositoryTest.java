@@ -17,12 +17,27 @@ class ClienteRepositoryTest {
     void shouldSaveAndFindCliente() {
         Cliente cliente = Cliente.builder()
                 .nome("Davi")
-                .saldo(100.0)
+                .email("davi@email.com")
+                .senha("123456")
                 .build();
 
         Cliente saved = clienteRepository.save(cliente);
 
         assertThat(saved.getId()).isNotNull();
         assertThat(clienteRepository.findById(saved.getId())).isPresent();
+    }
+
+    @Test
+    void shouldFindByEmail() {
+        Cliente cliente = Cliente.builder()
+                .nome("Maria")
+                .email("maria@email.com")
+                .senha("123456")
+                .build();
+
+        clienteRepository.save(cliente);
+
+        assertThat(clienteRepository.findByEmail("maria@email.com")).isPresent();
+        assertThat(clienteRepository.findByEmail("naoexiste@email.com")).isEmpty();
     }
 }

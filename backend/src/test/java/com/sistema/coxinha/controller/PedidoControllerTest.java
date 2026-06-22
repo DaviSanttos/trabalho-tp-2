@@ -2,6 +2,7 @@ package com.sistema.coxinha.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sistema.coxinha.dto.PedidoRequestDTO;
+import com.sistema.coxinha.service.ClienteService;
 import com.sistema.coxinha.service.PedidoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,15 @@ class PedidoControllerTest {
     @MockBean
     private PedidoService pedidoService;
 
+    @MockBean
+    private ClienteService clienteService;
+
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     void shouldCreatePedido() throws Exception {
-        PedidoRequestDTO request = new PedidoRequestDTO(1L, "FRANGO", 10.0);
+        PedidoRequestDTO request = new PedidoRequestDTO(1L, "FRANGO", 2, false);
 
         mockMvc.perform(post("/api/pedidos")
                 .contentType(MediaType.APPLICATION_JSON)

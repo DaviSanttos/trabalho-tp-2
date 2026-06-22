@@ -4,9 +4,9 @@ import com.sistema.coxinha.model.Cliente;
 import com.sistema.coxinha.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,17 +23,8 @@ public class ClienteService {
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
     }
 
-    @Transactional
-    public void adicionarSaldo(Long id, Double valor) {
-        Cliente cliente = buscarPorId(id);
-        cliente.adicionarSaldo(valor);
-        clienteRepository.save(cliente);
-    }
-
-    @Transactional
-    public void debitarSaldo(Long id, Double valor) {
-        Cliente cliente = buscarPorId(id);
-        cliente.debitarSaldo(valor);
-        clienteRepository.save(cliente);
+    public Optional<Cliente> login(String email, String senha) {
+        return clienteRepository.findByEmail(email)
+                .filter(c -> c.getSenha().equals(senha));
     }
 }

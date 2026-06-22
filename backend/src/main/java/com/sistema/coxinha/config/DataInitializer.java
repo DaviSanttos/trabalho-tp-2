@@ -17,13 +17,13 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Inicializar Clientes
         if (clienteRepository.count() == 0) {
-            clienteRepository.save(Cliente.builder().nome("Davi").saldo(100.0).build());
-            clienteRepository.save(Cliente.builder().nome("Maria").saldo(50.0).build());
+            clienteRepository.save(Cliente.builder()
+                    .nome("Davi").email("davi@email.com").senha("123456").build());
+            clienteRepository.save(Cliente.builder()
+                    .nome("Maria").email("maria@email.com").senha("123456").build());
         }
 
-        // Inicializar Estoque
         if (estoqueRepository.count() == 0) {
             estoqueRepository.save(Estoque.builder().produto("FRANGO").quantidade(10).build());
             estoqueRepository.save(Estoque.builder().produto("CATUPIRY").quantidade(10).build());

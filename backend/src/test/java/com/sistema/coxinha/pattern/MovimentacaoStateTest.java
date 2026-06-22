@@ -1,6 +1,6 @@
 package com.sistema.coxinha.pattern;
 
-import com.sistema.coxinha.state.MovimentacaoContext;
+import com.sistema.coxinha.state.PedidoContext;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,7 +10,7 @@ class MovimentacaoStateTest {
 
     @Test
     void shouldTransitionFromPendenteToConfirmada() {
-        MovimentacaoContext context = new MovimentacaoContext();
+        PedidoContext context = new PedidoContext();
         assertThat(context.getStatus()).isEqualTo("PENDENTE");
 
         context.confirmar();
@@ -19,14 +19,14 @@ class MovimentacaoStateTest {
 
     @Test
     void shouldTransitionFromConfirmadaToEstornada() {
-        MovimentacaoContext context = new MovimentacaoContext("CONFIRMADA");
+        PedidoContext context = new PedidoContext("CONFIRMADA");
         context.estornar();
         assertThat(context.getStatus()).isEqualTo("ESTORNADA");
     }
 
     @Test
     void shouldThrowExceptionWhenInvalidTransition() {
-        MovimentacaoContext context = new MovimentacaoContext("CONFIRMADA");
+        PedidoContext context = new PedidoContext("CONFIRMADA");
         assertThrows(IllegalStateException.class, context::confirmar);
     }
 }

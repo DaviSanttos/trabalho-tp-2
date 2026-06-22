@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Movimentacao {
 
     @Id
@@ -22,23 +24,9 @@ public class Movimentacao {
 
     private LocalDateTime data;
 
-    private Double valorNota;
+    private String tipo;
 
-    private Double valorPedido;
+    private Double valor;
 
-    private String sabor;
-
-    private String status;
-
-    private Long clienteId; // Relacionamento simplificado para DTOs
-
-    // Construtor manual para evitar problemas com Lombok @Builder em tempo de execução
-    public Movimentacao(LocalDateTime data, Double valorNota, Double valorPedido, String sabor, String status, Long clienteId) {
-        this.data = data;
-        this.valorNota = valorNota;
-        this.valorPedido = valorPedido;
-        this.sabor = sabor;
-        this.status = status;
-        this.clienteId = clienteId;
-    }
+    private String descricao;
 }

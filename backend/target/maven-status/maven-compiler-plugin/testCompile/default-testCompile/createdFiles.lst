@@ -1,0 +1,8 @@
+com\sistema\coxinha\SistemaCoxinhaApplicationTests.class
+com\sistema\coxinha\pattern\CoxinhaFactoryTest.class
+com\sistema\coxinha\repository\EstoqueRepositoryTest.class
+com\sistema\coxinha\controller\PedidoControllerTest.class
+com\sistema\coxinha\repository\ClienteRepositoryTest.class
+com\sistema\coxinha\pattern\CalculoPrecoStrategyTest.class
+com\sistema\coxinha\pattern\MovimentacaoStateTest.class
+com\sistema\coxinha\service\PedidoServiceTest.class

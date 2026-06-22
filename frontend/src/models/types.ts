@@ -1,16 +1,15 @@
 export interface Cliente {
   id: number;
   nome: string;
-  saldo: number;
+  email: string;
 }
 
 export interface Movimentacao {
   id: number;
   data: string;
-  valorNota: number;
-  valorPedido: number;
-  sabor: string;
-  status: string;
+  tipo: string;
+  valor: number;
+  descricao: string;
 }
 
 export interface Estoque {
@@ -19,13 +18,38 @@ export interface Estoque {
   quantidade: number;
 }
 
+export interface PedidoResponse {
+  id: number;
+  clienteId: number;
+  nomeCliente: string;
+  data: string;
+  sabor: string;
+  quantidade: number;
+  valorTotal: number;
+  status: string;
+}
+
+export interface MensagemResponse {
+  sucesso: boolean;
+  mensagem: string;
+}
+
+export interface LoginRequest {
+  email: string;
+  senha: string;
+}
+
+export interface LoginResponse {
+  clienteId: number;
+  nome: string;
+  email: string;
+  sucesso: boolean;
+  mensagem: string;
+}
+
 export interface PedidoRequest {
   clienteId: number;
   sabor: string;
-  valorNota: number;
-}
-
-export interface PedidoResponse {
-  sucesso: boolean;
-  mensagem: string;
+  quantidade: number;
+  usarCupom: boolean;
 }

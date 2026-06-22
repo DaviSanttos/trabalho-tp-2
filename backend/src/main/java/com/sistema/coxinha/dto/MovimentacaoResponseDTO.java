@@ -14,9 +14,7 @@ import java.time.LocalDateTime;
 public class MovimentacaoResponseDTO {
     private Long id;
     private LocalDateTime data;
-    private Double valorNota;
-    private Double valorPedido;
-    private String sabor;
-    private String status;
-    private Long clienteId;
+    private String tipo;
+    private Double valor;
+    private String descricao;
 }

@@ -1,5 +1,9 @@
 import api from './api';
-import type { Cliente, Estoque, Movimentacao, PedidoRequest, PedidoResponse } from '../models/types';
+import type { Cliente, Estoque, PedidoResponse, MensagemResponse, LoginRequest, LoginResponse, PedidoRequest, Movimentacao } from '../models/types';
+
+export const authService = {
+  login: (data: LoginRequest) => api.post<LoginResponse>('/auth/login', data),
+};
 
 export const clienteService = {
   getAll: () => api.get<Cliente[]>('/clientes'),
@@ -11,7 +15,14 @@ export const estoqueService = {
 };
 
 export const pedidoService = {
-  criar: (pedido: PedidoRequest) => api.post<PedidoResponse>('/pedidos', pedido),
-  getHistorico: () => api.get<Movimentacao[]>('/pedidos'),
-  estornar: (id: number) => api.post<PedidoResponse>(`/pedidos/${id}/estorno`),
+  criar: (pedido: PedidoRequest) => api.post<MensagemResponse>('/pedidos', pedido),
+  getHistorico: (clienteId?: number) => {
+    const params = clienteId ? { clienteId } : {};
+    return api.get<PedidoResponse[]>('/pedidos', { params });
+  },
+  estornar: (id: number) => api.post<MensagemResponse>(`/pedidos/${id}/estorno`),
+};
+
+export const movimentacaoService = {
+  getMovimentacoes: () => api.get<Movimentacao[]>('/movimentacoes'),
 };
