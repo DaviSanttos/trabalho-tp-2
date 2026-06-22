@@ -43,6 +43,7 @@ export interface LoginResponse {
   clienteId: number;
   nome: string;
   email: string;
+  tipo: string;
   sucesso: boolean;
   mensagem: string;
 }
@@ -52,4 +53,12 @@ export interface PedidoRequest {
   sabor: string;
   quantidade: number;
   usarCupom: boolean;
+}
+
+export interface Notificacao {
+  id: number;
+  mensagem: string;
+  data: string;
+  tipo: string;
+  lida: boolean;
 }

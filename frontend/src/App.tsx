@@ -6,17 +6,20 @@ import NovoPedido from './pages/NovoPedido';
 import Historico from './pages/Historico';
 import EstoquePage from './pages/Estoque';
 import Perfil from './pages/Perfil';
+import Notificacoes from './pages/Notificacoes';
 
 function App() {
   const [autenticado, setAutenticado] = useState(false);
   const [clienteId, setClienteId] = useState(0);
   const [clienteNome, setClienteNome] = useState('');
+  const [clienteTipo, setClienteTipo] = useState('');
   const [currentPage, setCurrentPage] = useState('dashboard');
 
-  const handleLogin = (id: number, nome: string) => {
+  const handleLogin = (id: number, nome: string, tipo: string) => {
     setAutenticado(true);
     setClienteId(id);
     setClienteNome(nome);
+    setClienteTipo(tipo);
     setCurrentPage('dashboard');
   };
 
@@ -24,6 +27,7 @@ function App() {
     setAutenticado(false);
     setClienteId(0);
     setClienteNome('');
+    setClienteTipo('');
     setCurrentPage('dashboard');
   };
 
@@ -40,9 +44,11 @@ function App() {
       case 'historico':
         return <Historico clienteId={clienteId} />;
       case 'estoque':
-        return <EstoquePage />;
+        return <EstoquePage admin={clienteTipo === 'ADMIN'} />;
       case 'perfil':
         return <Perfil clienteId={clienteId} />;
+      case 'notificacoes':
+        return <Notificacoes />;
       default:
         return <Dashboard clienteId={clienteId} />;
     }
@@ -54,6 +60,7 @@ function App() {
         onNavigate={setCurrentPage}
         currentPage={currentPage}
         clienteNome={clienteNome}
+        clienteTipo={clienteTipo}
         onLogout={handleLogout}
       />
       <main className="container mx-auto py-8">

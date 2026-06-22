@@ -4,7 +4,7 @@ import Card from '../components/Card';
 import { LogIn } from 'lucide-react';
 
 interface LoginProps {
-  onLogin: (clienteId: number, nome: string) => void;
+  onLogin: (clienteId: number, nome: string, tipo: string) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
@@ -21,7 +21,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     try {
       const res = await authService.login({ email, senha });
       if (res.data.sucesso) {
-        onLogin(res.data.clienteId, res.data.nome);
+        onLogin(res.data.clienteId, res.data.nome, res.data.tipo);
       } else {
         setErro(res.data.mensagem);
       }

@@ -1,13 +1,12 @@
 package com.sistema.coxinha.service;
 
 import com.sistema.coxinha.model.Estoque;
-import com.sistema.coxinha.observer.EstoqueObserver;
+import com.sistema.coxinha.observer.EstoquePublisher;
 import com.sistema.coxinha.repository.EstoqueRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,7 +14,7 @@ import java.util.List;
 public class EstoqueService {
 
     private final EstoqueRepository estoqueRepository;
-    private final List<EstoqueObserver> observers;
+    private final EstoquePublisher publisher;
 
     public List<Estoque> listarEstoque() {
         return estoqueRepository.findAll();
@@ -28,7 +27,7 @@ public class EstoqueService {
         
         estoque.removerQuantidade(quantidade);
         estoqueRepository.save(estoque);
-        notificarObservers(estoque);
+        publisher.notifyObservers(estoque.getProduto(), estoque.getQuantidade());
     }
 
     @Transactional
@@ -38,10 +37,6 @@ public class EstoqueService {
         
         estoque.adicionarQuantidade(quantidade);
         estoqueRepository.save(estoque);
-        notificarObservers(estoque);
-    }
-
-    private void notificarObservers(Estoque estoque) {
-        observers.forEach(o -> o.atualizar(estoque.getProduto(), estoque.getQuantidade()));
+        publisher.notifyObservers(estoque.getProduto(), estoque.getQuantidade());
     }
 }

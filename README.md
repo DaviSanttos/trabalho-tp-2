@@ -1,41 +1,55 @@
-# Sistema de Troca de Notas por Coxinhas 🍗
+# Sistema de Pedidos de Coxinhas
 
-Este projeto é um simulador de troca de notas por coxinhas, desenvolvido como um trabalho prático.
+Sistema full stack para gerenciamento de pedidos de coxinhas com controle de
+estoque, notificações e perfis de acesso (admin/cliente).
 
-## Tecnologias
+## Requisitos
 
-### Back-End
-- Java 17 / Spring Boot 3
-- H2 Database (In-Memory)
-- Spring Data JPA
-- Maven
+- **Java 17+** e **Maven** (para o backend)
+- **Node.js 18+** e **npm** (para o frontend)
 
-### Front-End
-- React + TypeScript
-- Vite
-- Tailwind CSS
-- Axios / Lucide React
+## Como Rodar
 
-## Como Executar
+### 1. Backend (Spring Boot)
 
-### 1. Back-End
-- Navegue até a pasta `backend/`
-- Execute: `./mvnw spring-boot:run` ou via sua IDE favorita.
-- O servidor iniciará em `http://localhost:8080`
+```bash
+cd backend
+mvn spring-boot:run
+```
 
-### 2. Front-End
-- Navegue até a pasta `frontend/`
-- Instale as dependências: `npm install`
-- Execute: `npm run dev`
-- O servidor iniciará em `http://localhost:3000`
+A API inicia em `http://localhost:8080`.
 
-## Padrões de Projeto Implementados
-- **Strategy**: Cálculo de Preço.
-- **Factory Method**: Criação de Coxinhas.
-- **Observer**: Monitoramento de Estoque.
-- **Command**: Realização e Estorno de Pedidos.
-- **State**: Gerenciamento de Status de Movimentação.
-- **DTO**: Transferência de dados entre camadas.
+### 2. Frontend (React + Vite)
 
-## Documentação Detalhada
-Consulte a pasta `docs/` para ver o progresso de cada fase do desenvolvimento.
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+A interface inicia em `http://localhost:3000`.
+
+---
+
+### Ou use o script automatizado
+
+Execute `INICIAR_SISTEMA.bat` na raiz do projeto — ele sobe ambos os servidores.
+
+## Credenciais
+
+| Usuário | Email | Senha | Perfil |
+|---|---|---|---|
+| Davi | davi@email.com | 123456 | ADMIN |
+| Maria | maria@email.com | 123456 | CLIENTE |
+
+## Padrões de Projeto
+
+- **Command**: Realizar e estornar pedidos
+- **Strategy**: Cálculo de preço (normal / promocional)
+- **Factory Method**: Criação de coxinhas por sabor
+- **Observer**: Notificações de alterações no estoque
+- **State**: Transições de status do pedido
+
+## Documentação
+
+Consulte a pasta `docs/`.

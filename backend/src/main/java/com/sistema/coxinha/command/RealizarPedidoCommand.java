@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 public class RealizarPedidoCommand implements Command {
 
     private final Long clienteId;
-    private final String sabor;
     private final Integer quantidade;
 
     private final EstoqueService estoqueService;
@@ -28,8 +27,9 @@ public class RealizarPedidoCommand implements Command {
 
     @Override
     public void executar() {
-        Coxinha coxinha = coxinhaFactory.criarCoxinha(sabor);
+        Coxinha coxinha = coxinhaFactory.criarCoxinha();
 
+        String sabor = coxinha.getSabor();
         Double precoFinal = precoStrategy.calcular(coxinha.getPrecoBase()) * quantidade;
 
         estoqueService.baixarEstoque(sabor, quantidade);

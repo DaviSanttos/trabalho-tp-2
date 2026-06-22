@@ -9,23 +9,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Cliente {
+public class Notificacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+    private String mensagem;
 
-    private String email;
+    private LocalDateTime data;
 
-    private String senha;
+    private String tipo;
 
     @Builder.Default
-    private String tipo = "CLIENTE";
+    private boolean lida = false;
 }

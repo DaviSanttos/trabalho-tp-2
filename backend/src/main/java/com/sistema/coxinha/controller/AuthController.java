@@ -28,6 +28,7 @@ public class AuthController {
                     .clienteId(cliente.getId())
                     .nome(cliente.getNome())
                     .email(cliente.getEmail())
+                    .tipo(cliente.getTipo())
                     .sucesso(true)
                     .mensagem("Login realizado com sucesso")
                     .build());

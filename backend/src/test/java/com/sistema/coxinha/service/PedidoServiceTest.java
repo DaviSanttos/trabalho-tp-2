@@ -1,7 +1,9 @@
 package com.sistema.coxinha.service;
 
 import com.sistema.coxinha.factory.Coxinha;
-import com.sistema.coxinha.factory.CoxinhaFactory;
+import com.sistema.coxinha.factory.CoxinhaCalabresaFactory;
+import com.sistema.coxinha.factory.CoxinhaCatupiryFactory;
+import com.sistema.coxinha.factory.CoxinhaFrangoFactory;
 import com.sistema.coxinha.model.Movimentacao;
 import com.sistema.coxinha.model.Pedido;
 import com.sistema.coxinha.repository.MovimentacaoRepository;
@@ -27,7 +29,11 @@ class PedidoServiceTest {
     @Mock
     private MovimentacaoRepository movimentacaoRepository;
     @Mock
-    private CoxinhaFactory coxinhaFactory;
+    private CoxinhaFrangoFactory coxinhaFrangoFactory;
+    @Mock
+    private CoxinhaCatupiryFactory coxinhaCatupiryFactory;
+    @Mock
+    private CoxinhaCalabresaFactory coxinhaCalabresaFactory;
     @Mock
     private PrecoPadrao precoPadrao;
     @Mock
@@ -40,7 +46,8 @@ class PedidoServiceTest {
     void shouldRealizarPedidoComSucesso() {
         Coxinha mockCoxinha = mock(Coxinha.class);
         when(mockCoxinha.getPrecoBase()).thenReturn(5.0);
-        when(coxinhaFactory.criarCoxinha(anyString())).thenReturn(mockCoxinha);
+        when(mockCoxinha.getSabor()).thenReturn("FRANGO");
+        when(coxinhaFrangoFactory.criarCoxinha()).thenReturn(mockCoxinha);
         when(precoPadrao.calcular(anyDouble())).thenReturn(5.0);
 
         pedidoService.realizarPedido(1L, "FRANGO", 2, false);
@@ -54,7 +61,8 @@ class PedidoServiceTest {
     void shouldRealizarPedidoComCupom() {
         Coxinha mockCoxinha = mock(Coxinha.class);
         when(mockCoxinha.getPrecoBase()).thenReturn(5.0);
-        when(coxinhaFactory.criarCoxinha(anyString())).thenReturn(mockCoxinha);
+        when(mockCoxinha.getSabor()).thenReturn("FRANGO");
+        when(coxinhaFrangoFactory.criarCoxinha()).thenReturn(mockCoxinha);
         when(precoPromocional.calcular(anyDouble())).thenReturn(4.5);
 
         pedidoService.realizarPedido(1L, "FRANGO", 2, true);

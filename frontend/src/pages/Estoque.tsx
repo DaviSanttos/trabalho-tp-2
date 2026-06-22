@@ -2,17 +2,35 @@ import React, { useEffect, useState } from 'react';
 import { estoqueService } from '../services/pedidoService';
 import type { Estoque } from '../models/types';
 import Card from '../components/Card';
-import { Package, AlertTriangle } from 'lucide-react';
+import { Package, AlertTriangle, Plus } from 'lucide-react';
 
-const EstoquePage: React.FC = () => {
+interface EstoquePageProps {
+  admin?: boolean;
+}
+
+const EstoquePage: React.FC<EstoquePageProps> = ({ admin = false }) => {
   const [estoque, setEstoque] = useState<Estoque[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchEstoque = () => {
+    setLoading(true);
     estoqueService.getEstoque()
       .then((res) => setEstoque(res.data))
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchEstoque();
   }, []);
+
+  const handleRepor = async (sabor: string) => {
+    try {
+      await estoqueService.repor(sabor, 5);
+      fetchEstoque();
+    } catch (error) {
+      console.error('Erro ao repor estoque:', error);
+    }
+  };
 
   if (loading) return <div className="p-8 text-center">Carregando estoque...</div>;
 
@@ -38,6 +56,16 @@ const EstoquePage: React.FC = () => {
                   <AlertTriangle size={18} className="mr-1" />
                   <span>Estoque Baixo!</span>
                 </div>
+              )}
+
+              {admin && (
+                <button
+                  onClick={() => handleRepor(item.produto)}
+                  className="mt-4 flex items-center px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 text-sm"
+                >
+                  <Plus size={16} className="mr-1" />
+                  Repor (+5)
+                </button>
               )}
             </div>
           ))}

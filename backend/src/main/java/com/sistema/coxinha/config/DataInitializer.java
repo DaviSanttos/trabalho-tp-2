@@ -19,9 +19,9 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (clienteRepository.count() == 0) {
             clienteRepository.save(Cliente.builder()
-                    .nome("Davi").email("davi@email.com").senha("123456").build());
+                    .nome("Davi").email("davi@email.com").senha("123456").tipo("ADMIN").build());
             clienteRepository.save(Cliente.builder()
-                    .nome("Maria").email("maria@email.com").senha("123456").build());
+                    .nome("Maria").email("maria@email.com").senha("123456").tipo("CLIENTE").build());
         }
 
         if (estoqueRepository.count() == 0) {
